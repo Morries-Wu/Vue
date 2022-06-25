@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天气案例</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+<body>
+    <!--
+        监视属性watch:
+              1、当被监视的属性变化时,回调函数自动调用,进行相关操作
+              2、监视的属性必须存在,才能进行监视
+              3、监视的两种写法:
+                        [1].new Vue时传入watch配置
+                        [2].通过vm.$watch监视
+     -->
+
+    <!--准备好一个容器-->
+    <div id="root" align="center">
+        <h2>今天天气很{{judgehot}}</h2>
+        <br>
+        <button @click="chweather">切换天气</button>
+    </div>
+
+<script type="text/javascript">
+    //阻止 vue 在启动时生成生产提示
+    Vue.config.productionTip = false
+    var vm=new Vue({
+        el: "#root",
+        data: {
+            ishot: true
+        },
+        computed: {
+            judgehot: function () {
+                return this.ishot ? "炎热" : "凉爽"
+            }
+        },
+        methods: {
+            chweather: function () {
+                this.ishot = !this.ishot;
+            }
+        },
+        /*
+        watch:{
+            ishot:{
+                //初始化时让handler调用一下
+                immediate:true,
+                //handler什么时候调用?当ishot发生改变时
+                handler(newvalue,oldvalue){
+                    console.log("ishot被修改了",newvalue,oldvalue)
+                }
+
+            }
+        }
+        */
+
+    });
+
+    vm.$watch('ishot',{
+        immediate:true,
+        handler(newvalue,oldvalue){
+            console.log("ishot被修改了",newvalue,oldvalue)
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

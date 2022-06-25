@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一个重要的内置关系</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <!--
+      1、一个重要的内置关系:VueComponent.prototype.__proto__===Vue.prototype
+      2、为什么要有这个关系:让组件实例对象(vc)可以访问到 Vue原型上的属性、方法
+      -->
+
+    <!--准备好一个容器-->
+    <div id="root" align="center">
+      <school></school>
+    </div>
+
+<script type="text/javascript">
+      //阻止 vue 在启动时生成生产提示
+      Vue.config.productionTip = false
+      Vue.prototype.x=99
+
+      const school=Vue.extend({
+        template: `
+          <div>
+          <h2>学校名称:{{schoolName}}</h2>
+          <h2>学校地址:{{address}}</h2>
+          <button @click="showX">点我输出x</button>
+          </div>`,
+        //一定不要写el配置项,因为最终所有的组件都要被一个vm管理,由vm决定服务于哪个容器
+        data:function () {
+          return{
+            schoolName: "广工",
+            address:"广东",
+          }
+        },
+        methods:{
+          showX(){
+            alert(this.x)
+          }
+        },
+      })
+
+      //创建一个vm
+      var vm=new Vue({
+        el:"#root",
+        data:{
+          msg:"你好"
+        },
+        components:{
+          school
+        }
+      })
+
+      console.log(school.prototype__proto__===vm.prototype)
+
+      //定义一个构造函数
+      function Demo(){
+        this.a=1
+        this.b=2
+      }
+      //创建一个Demo的实例对象
+      const  d=new Demo()
+
+      //显示原型属性
+      console.log(Demo.prototype)
+      //隐式原型属性
+      console.log(d.__proto__)
+
+      //程序员通过显示原型属性操作原型
+      Demo.prototype.x=99
+
+
+</script>
+
+
+</body>
+</html>

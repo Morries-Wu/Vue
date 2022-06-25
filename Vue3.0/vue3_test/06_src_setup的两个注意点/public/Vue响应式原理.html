@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    /*源数据*/
+    let person = {
+        name: 'morries_wu',
+        age: 18
+    }
+
+    /*模拟Vue2中实现响应式*/
+    /*let P = {}*/
+
+    /*Object.defineProperty(P, 'name', {
+        configurable: true,
+        /!*有人读取name时调用*!/
+        get: function () {
+            return person.name
+        },
+
+        /!*有人修改name时调用*!/
+        set: function (value) {
+            console.log('有人修改了name属性, 我发现了, 我要去更新界面');
+            person.name = value
+        }
+    })*/
+
+    /*Object.defineProperty(P, 'age', {
+        /!*有人读取age时调用*!/
+        get: function () {
+            return person.age
+        },
+
+        /!*有人修改age时调用*!/
+        set: function (value) {
+            console.log('有人修改了age属性, 我发现了, 我要去更新界面');
+            person.age = value
+        }
+    })*/
+
+    /*模拟Vue3中实现响应式*/
+    const P = new Proxy(person, {
+        /*有人读取P的某个属性时调用*/
+        get: function (target, propName) {
+            console.log(`有人读取了P身上的${propName}属性`, target, propName)
+            /*因为propName是动态值,动态对象都是用[]*/
+            return Reflect.get(target, propName)
+        },
+        /*有人修改P的某个属性、或给P追加某个属性时调用*/
+        set: function (target, propName, value) {
+            console.log(`有人修改了P身上的${propName}属性,我要更新界面了`, target, propName, value)
+            return Reflect.set(target, propName, value)
+        },
+        /*有人删除P的某个属性时调用*/
+        deleteProperty(target, propName) {
+            console.log(`有人删除了P身上的${propName}属性,我要更新界面了`)
+            return Reflect.deleteProperty(target, propName)
+        }
+    })
+
+    /*let obj = {a: 1, b: 2}
+    const x1 = Reflect.defineProperty(obj, 'c', {
+        get: function () {
+            return 3
+        }
+    })
+    console.log(x1);
+
+    const x2 = Reflect.defineProperty(obj, 'c', {
+        get: function () {
+            return 4
+        }
+    })
+    console.log(x2);*/
+
+
+</script>
+
+
+</body>
+</html>

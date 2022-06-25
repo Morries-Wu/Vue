@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Vue检测数据改变的原理_数组</title>
+    <script type="text/javascript" src="../js/vue.js"></script>
+</head>
+<body>
+        <!---->
+
+        <!-- 准备好一个容器-->
+        <div id="root">
+            <h1>学校信息</h1>
+            <h2>学校名称:{{name}}</h2>
+            <h2>学校地址:{{address}}</h2>
+            <br>
+            <h1>学生信息</h1>
+            <button @click="addSex">添加一个性别属性,默认值是男</button>
+            <h2>姓名:{{student.name}}</h2>
+            <h2 v-if="student.sex">性别:{{student.sex}}</h2>
+            <h2>年龄:真实{{student.age.rAge}},对外{{student.age.sAge}}</h2>
+            <h2>爱好</h2>
+            <ul>
+                <li v-for="(item,index) in student.hobby" :key="index">
+                    {{item}}
+                </li>
+            </ul>
+            <h2>朋友们</h2>
+            <ul>
+                <li v-for="(item,index) in student.friends" :key="index">
+                    {{item.name}}--{{item.age}}
+                </li>
+            </ul>
+
+
+        </div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false
+
+    //用computed实现
+    var vm=new Vue({
+        el: '#root',
+        data: {
+            name:"华南理工大学",
+            address:"农村",
+            student:{
+                name:"jack",
+                age: {
+                    rAge:24,
+                    sAge:18,
+                },
+                hobby: {
+                    h1: "唱",
+                    h2: "跳",
+                    h3: "rap"
+                },
+                friends:[
+                    {name:"tom",age:35},
+                    {name:"lucy",age:36},
+                    {name:"Ucy",age:37},
+                ]
+            },
+        },
+        methods:{
+            addSex:function (){
+                //Vue.set(this.student,"sex","男")
+                this.$set(this.student,"sex","男")
+            }
+        }
+    });
+
+
+</script>
+
+
+</body>
+</html>

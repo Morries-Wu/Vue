@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-pre指令</title>
+    <script src="../js/vue.js"></script>
+
+</head>
+<body>
+        <!--
+            v-pre指令:
+            1、跳过其所在节点的编译过程
+            2、可利用它跳过:没有使用指令语法、没有使用插值语法的节点,会加快编译
+          -->
+
+        <!--准备好一个容器-->
+        <div id="root" align="center">
+            <h2 v-pre>Vue其实很简单</h2>
+            <h2 >当前的num值是{{num}}</h2>
+            <button @click="num++">点我num+1</button>
+        </div>
+
+<script type="text/javascript">
+    //阻止 vue 在启动时生成生产提示
+    Vue.config.productionTip = false
+
+    new Vue({
+        el: "#root",
+        data: {
+            num: 1,
+        }
+
+
+    });
+</script>
+
+</body>
+</html>

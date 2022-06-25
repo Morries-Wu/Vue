@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <!--
+    总结:
+    let声明的变量,只在let命令所在的代码块内有效
+    let命令不存在变量提升
+    let命令不允许在相同作用域内,重复声明同一个变量
+   -->
+
+</head>
+<body>
+<script>
+
+
+  /*
+    为什么新增let生命变量的关键字
+    var 不好用
+      1.var 可以重复声明
+      2.var无法限制修改,var没有块级作用域
+
+      块级作用域:{} if(){}  for(){}
+      只有在function(){}中有作用域
+
+      var a=10;
+      a=20;
+      console.log(a)
+   */
+
+  /*
+      {
+        var a=10
+        console.log(a)
+      }
+      console.log(a)
+  */
+
+
+  /*
+      var name="lmonkey"
+      if(true){
+        var name='eduwork'
+        console.log(name)
+      }
+
+      console.log(name);
+  */
+
+  function myname(){
+    var name="lmokey";
+  }
+  console.log(name);
+
+
+</script>
+    <button>按钮1</button>
+    <button>按钮2</button>
+    <button>按钮3</button>
+    <button>按钮4</button>
+    <button>按钮5</button>
+
+<script>
+  /*
+  var btns=document.getElementsByTagName('button')
+  for(var i=0;i<btns.length;i++){
+    (function (i){
+      btns[i].addEventListener('click',function (){
+        console.log(i);
+      });
+    })(i)
+  }
+  */
+
+  var btns=document.getElementsByTagName('button')
+  for(let i=0;i<btns.length;i++){
+    btns[i].addEventListener('click',function (){
+      console.log(i);
+    });
+  }
+
+
+</script>
+
+
+</body>
+</html>

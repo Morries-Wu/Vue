@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>分析生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+
+    <!--准备好一个容器-->
+    <div id="root" align="center">
+        <h2 v-text="num"></h2>
+        <h2>当前的num值是:{{num}}</h2>
+        <button @click="add">点我num+1</button>
+        <button @click="bye">点我销毁vm</button>
+    </div>
+
+<script type="text/javascript">
+    //阻止 vue 在启动时生成生产提示
+    Vue.config.productionTip = false
+
+    const vm = new Vue({
+        el: "#root",
+        data: {
+            num:1,
+        },
+        methods:{
+            add(){
+                console.log("add")
+                this.num++
+            },
+            bye(){
+                console.log("bey")
+                this.$destroy()
+            }
+        },
+        watch:{
+            num(){
+              console.log("num变了")
+            }
+        },
+        //此时:无法通过vm访问到data中的数据、methods中的方法
+        beforeCreate(){
+            console.log("beforeCreate",this)
+        },
+        //此时,可以通过vm访问到data中的数据、methods中的配置方法
+        created(){
+            console.log("created",this)
+        },
+        /*
+          此时
+          1、页面呈现的是未经Vue编译的Dom结构
+          2、所有对Dom的操作,最终都不奏效
+        */
+        beforeMount(){
+            console.log("beforeMount",this)
+        },
+        /*
+          此时
+          1、页面中呈现的是经过Vue编译的Dom
+          2、对Dom的操作均有效(尽可能避免)
+             至此初始化过程结束一般在此进行:开启定时器、发送网络请求、订阅消息、绑定自定义事件、等初始化操作
+         */
+        mounted(){
+            console.log("mounted",this)
+        },
+        //此时:数据是新的,但页面是旧的,即:页面尚未和数据保持同步
+        beforeUpdate(){
+            console.log("beforeUpdate",this.num)
+        },
+        //此时:数据是新的,页面也是新的,即:页面和数据保持同步
+        updated(){
+            console.log("updated",this.num)
+        },
+        /*
+         此时:vm中所有的:data、methods、指令等等,都处于可用状态,尚未要执行销毁过程
+             一般在此阶段:关闭定时器、取消订阅消息、解绑自定义事件等收尾操作
+         */
+        beforeDestroy(){
+            console.log("beforeDestroy",this.num)
+            this.add()
+        },
+        destroyed(){
+            console.log("destroyed")
+        }
+
+
+
+
+    });
+
+    /*
+    通过外部的定时器实现(不推荐)
+    setInterval(()=>{
+      vm.myopacity-=0.01
+      if (vm.myopacity<=0)
+        vm.myopacity=1
+      },16)
+     */
+
+
+</script>
+
+</body>
+</html>
